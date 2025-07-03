@@ -49,4 +49,18 @@ static_transformStamped.child_frame_id = dest
 static_transformStamped.transform = calib.transformation.transform
 
 broadcaster.sendTransform(static_transformStamped)
-rospy.spin()
+# rospy.spin()
+
+
+rate = rospy.Rate(10)  # Publish at 10Hz
+
+while not rospy.is_shutdown():
+    transformStamped = geometry_msgs.msg.TransformStamped()
+
+    transformStamped.header.stamp = rospy.Time.now()
+    transformStamped.header.frame_id = orig
+    transformStamped.child_frame_id = dest
+    transformStamped.transform = calib.transformation.transform
+
+    broadcaster.sendTransform(transformStamped)
+    rate.sleep()
